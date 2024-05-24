@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - '3306:3306'
+    networks:
+      - dshopnet
+
+  web:
+    build: .
+    command: ./start.sh 
+    volumes:
+      - .:/code
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    networks:
+      - dshopnet
+
+networks:
+  dshopnet:
+
+
